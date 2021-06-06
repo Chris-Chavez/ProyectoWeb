@@ -1,13 +1,28 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/Categorias">Categorias</router-link> |
-      <router-link to="/Personal">Personal</router-link> |
-      <router-link to="/Tickets">Tickets</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <b-card no-body>
+    <b-card-header header-tag="nav" style="padding: 0px">
+      <b-navbar type="dark" variant="dark">
+        <b-navbar-nav>
+          <b-nav-item to="/" exact exact-active-class="active"
+            >Inicio</b-nav-item
+          >
+          <b-nav-item to="/Categorias" exact exact-active-class="active"
+            >Categorias</b-nav-item
+          >
+          <b-nav-item to="/Personal" exact exact-active-class="active"
+            >Personal</b-nav-item
+          >
+          <b-nav-item to="/Tickets" exact exact-active-class="active"
+            >Tickets</b-nav-item
+          >
+        </b-navbar-nav>
+      </b-navbar>
+    </b-card-header>
+
+    <b-card-body>
+      <router-view></router-view>
+    </b-card-body>
+  </b-card>
 </template>
 
 <style>
@@ -17,18 +32,5 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
 }
 </style>

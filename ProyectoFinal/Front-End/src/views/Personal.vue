@@ -1,74 +1,86 @@
 <template>
   <div class="Contenedor">
     <h1>ABC Personal</h1>
-    <b-form @submit.prevent="AgregarPersonal">
-      <Input
-        v-model="Personal.Nombre"
-        id="Modelo"
-        placeholder="Ingrese el nombre del Personal"
-        mensajeError="Este dato es obligatorio"
-        maxlength="50"
-        pattern="^[a-zA-Z0-9\s]+$"
-        :error="erroresValidacion && !validacionNombre"
-        class="mb-2"
-      />
-      <Input
-        v-model="Personal.Apellidos"
-        id="Modelo"
-        placeholder="Ingrese los Apellidos del Personal"
-        mensajeError="Este dato es obligatorio"
-        maxlength="80"
-        pattern="^[a-zA-Z0-9\s]+$"
-        :error="erroresValidacion && !validacionAP"
-        class="mb-2"
-      />
-      <Input
-        v-model="Personal.Telefono"
-        id="Modelo"
-        placeholder="Ingrese el Telefono del Personal"
-        maxlength="10"
-        mensajeError="Este dato es incorrecto"
-        pattern="(^$|^[0-9]{10}$)"
-        :error="erroresValidacionTel"
-        class="mb-2"
-      />
-      <Input
-        v-model="Personal.Direccion"
-        id="Modelo"
-        placeholder="Ingrese la Direccion del Personal"
-        maxlength="150"
-        pattern="^[a-zA-Z0-9\s]+$"
-        class="mb-2"
-      />
-      <b-button
-        type="submit"
-        variant="outline-success"
-        class="float-right mt-3"
-        style="margin-bottom: 15px"
-        >Guardar</b-button
+    <b-tabs>
+      <b-tab title="Consulta">
+        <br />
+        <h3>Consulta de Personal</h3>
+        <br />
+        <Table :fields="campos" :items="allPersonal" :busy="getLoading">
+          <template slot="actions" slot-scope="{ item }">
+            <b-button
+              v-b-modal.modal-prevent-closing
+              size="sm"
+              variant="outline-primary"
+              @click="onEditar(item)"
+            >
+              Editar
+            </b-button>
+            <b-button
+              size="sm"
+              class="ml-2"
+              variant="outline-danger"
+              @click="onEliminar(item)"
+            >
+              Eliminar
+            </b-button>
+          </template>
+        </Table></b-tab
       >
-    </b-form>
+      <b-tab title="Insercion">
+        <br />
+        <h3>Agregar Personal</h3>
+        <br />
+        <b-form @submit.prevent="AgregarPersonal">
+          <Input
+            v-model="Personal.Nombre"
+            id="Modelo"
+            placeholder="Ingrese el nombre del Personal"
+            mensajeError="Este dato es obligatorio"
+            maxlength="50"
+            pattern="^[a-zA-Z0-9\s]+$"
+            :error="erroresValidacion && !validacionNombre"
+            class="mb-2"
+          />
+          <Input
+            v-model="Personal.Apellidos"
+            id="Modelo"
+            placeholder="Ingrese los Apellidos del Personal"
+            mensajeError="Este dato es obligatorio"
+            maxlength="80"
+            pattern="^[a-zA-Z0-9\s]+$"
+            :error="erroresValidacion && !validacionAP"
+            class="mb-2"
+          />
+          <Input
+            v-model="Personal.Telefono"
+            id="Modelo"
+            placeholder="Ingrese el Telefono del Personal"
+            maxlength="10"
+            mensajeError="Este dato es incorrecto"
+            pattern="(^$|^[0-9]{10}$)"
+            :error="erroresValidacionTel"
+            class="mb-2"
+          />
+          <Input
+            v-model="Personal.Direccion"
+            id="Modelo"
+            placeholder="Ingrese la Direccion del Personal"
+            maxlength="150"
+            pattern="^[a-zA-Z0-9\s]+$"
+            class="mb-2"
+          />
+          <b-button
+            type="submit"
+            variant="outline-success"
+            class="float-right mt-3"
+            style="margin-bottom: 15px"
+            >Guardar</b-button
+          >
+        </b-form></b-tab
+      >
+    </b-tabs>
 
-    <Table :fields="campos" :items="allPersonal" :busy="getLoading">
-      <template slot="actions" slot-scope="{ item }">
-        <b-button
-          v-b-modal.modal-prevent-closing
-          size="sm"
-          variant="outline-primary"
-          @click="onEditar(item)"
-        >
-          Editar
-        </b-button>
-        <b-button
-          size="sm"
-          class="ml-2"
-          variant="outline-danger"
-          @click="onEliminar(item)"
-        >
-          Eliminar
-        </b-button>
-      </template>
-    </Table>
     <b-modal
       id="modal-prevent-closing"
       ref="modal"
@@ -249,13 +261,10 @@ export default {
         onComplete: (response) => {
           console.log(response);
           this.setPersonal();
+          this.SuccessResponse(response.data.mensaje);
         },
         onError: (error) => {
-          console.log(error);
-          this.$notify({
-            type: "error",
-            title: error.response.data.mensaje,
-          });
+          this.ErrorResponse(error.response.data.mensaje);
         },
       });
       this.$nextTick(() => {
@@ -268,7 +277,8 @@ export default {
       this.AuxEditar = JSON.parse(JSON.stringify(item.item));
     },
     onEliminar(item) {
-      this.$bvModal.msgBoxConfirm("Esta opción no se puede deshacer", {
+      this.$bvModal
+        .msgBoxConfirm("Esta opción no se puede deshacer", {
           title: "¿Esta seguro que desea eliminar?",
           buttonSize: "sm",
           okVariant: "danger",
@@ -283,13 +293,10 @@ export default {
               onComplete: (response) => {
                 console.log(response);
                 this.setPersonal();
+                this.SuccessResponse(response.data.mensaje);
               },
               onError: (error) => {
-                console.log(error);
-                this.$notify({
-                  type: "error",
-                  title: error.response.data.mensaje,
-                });
+                this.ErrorResponse(error.response.data.mensaje);
               },
             });
           }
@@ -301,24 +308,48 @@ export default {
           if (this.validacionTelefono) {
             this.erroresValidacion = false;
             this.erroresValidacionTel = false;
-            console.log(this.Personal);
             this.insertPersonal({
               params: this.Personal,
               onComplete: (response) => {
                 console.log(response);
                 this.setPersonal();
-                this.Personal = {Nombre: "", Apellidos: "", Telefono: "", Direccion: ""};
+                this.Personal = {
+                  Nombre: "",
+                  Apellidos: "",
+                  Telefono: "",
+                  Direccion: "",
+                };
+                this.SuccessResponse(response.data.mensaje);
               },
               onError: (error) => {
-                this.$notify({
-                  type: "error",
-                  title: error.response.data.mensaje,
-                });
+                this.ErrorResponse(error.response.data.mensaje);
               },
             });
           } else this.erroresValidacionTel = true;
         } else this.erroresValidacion = true;
       } else this.erroresValidacion = true;
+    },
+    ErrorResponse(mensaje) {
+      this.$bvModal.msgBoxOk(mensaje, {
+        title: "Error",
+        size: "sm",
+        buttonSize: "sm",
+        okVariant: "danger",
+        headerClass: "p-2 border-bottom-0",
+        footerClass: "p-2 border-top-0",
+        centered: true,
+      });
+    },
+    SuccessResponse(mensaje) {
+      this.$bvModal.msgBoxOk(mensaje, {
+        title: "Accion Completada",
+        size: "sm",
+        buttonSize: "sm",
+        okVariant: "success",
+        headerClass: "p-2 border-bottom-0",
+        footerClass: "p-2 border-top-0",
+        centered: true,
+      });
     },
   },
 };
@@ -326,6 +357,7 @@ export default {
 
 <style>
 .Contenedor {
+  height: 100%;
   margin-left: 20%;
   margin-right: 20%;
 }

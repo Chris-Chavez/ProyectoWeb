@@ -1,59 +1,49 @@
 <template>
   <div class="Contenedor">
     <h1>ABC Categorias</h1>
-    <b-form @submit.prevent="AgregarCategoria">
-      <Input
-        v-model="Categoria.Nombre"
-        id="Modelo"
-        placeholder="Ingrese nombre de la Categoria"
-        mensajeError="Este dato es obligatorio"
-        maxlength="50"
-        :error="erroresValidacion && !validacionNombre"
-        class="mb-2"
-      />
-      <b-button type="submit" variant="outline-success" class="float-right mt-3" style="margin-bottom: 15px;">Guardar</b-button>
-    </b-form>
-
-    <Table :fields="campos" :items="allCategorias" :busy="getLoading" >
-      <template slot="actions" slot-scope="{ item }">
-        <b-button
-          size="sm"
-          class="ml-2"
-          variant="outline-danger"
-          @click="onEliminar(item)"
-        >
-          Eliminar
-        </b-button>
-      </template>
-    </Table>
-    <b-modal
-      id="modal-prevent-closing"
-      ref="modal"
-      okTitle="Aceptar"
-      buttonSize="sm"
-      :centered='true'
-      cancelTitle="Cancelar"
-      title="Editar Nombre de la Categoria"
-      @show="resetModal"
-      @hidden="resetModal"
-      @ok="handleOk"
-    >
-      <form ref="form" @submit.stop.prevent="handleSubmit">
-        <b-form-group
-          label="Nuevo Nombre"
-          label-for="name-input"
-          invalid-feedback="El Nombre es requerido"
-          :state="StateNombre"
-        >
-          <b-form-input
-            id="name-input"
-            v-model="EditNombre"
-            :state="StateNombre"
-            required
-          ></b-form-input>
-        </b-form-group>
-      </form>
-    </b-modal>
+    <b-tabs>
+      <b-tab title="Consulta">
+        <br />
+        <h3>Consulta de Categorias</h3>
+        <br />
+        <Table :fields="campos" :items="allCategorias" :busy="getLoading">
+          <template slot="actions" slot-scope="{ item }">
+            <b-button
+              size="sm"
+              class="ml-2"
+              variant="outline-danger"
+              @click="onEliminar(item)"
+            >
+              Eliminar
+            </b-button>
+          </template>
+        </Table>
+      </b-tab>
+      <b-tab title="Insercion">
+        <br />
+        <h3>Agregar Categorias</h3>
+        <br />
+        <b-form @submit.prevent="AgregarCategoria">
+          <Input
+            v-model="Categoria.Nombre"
+            id="Modelo"
+            placeholder="Ingrese nombre de la Categoria"
+            mensajeError="Este dato es obligatorio"
+            maxlength="50"
+            pattern="^[a-zA-Z0-9\s]+$"
+            :error="erroresValidacion && !validacionNombre"
+            class="mb-2"
+          />
+          <b-button
+            type="submit"
+            variant="outline-success"
+            class="float-right mt-3"
+            style="margin-bottom: 15px"
+            >Guardar</b-button
+          >
+        </b-form>
+      </b-tab>
+    </b-tabs>
   </div>
 </template>
 
@@ -69,9 +59,6 @@ export default {
   },
   data() {
     return {
-      EditNombre: "",
-      StateNombre: null,
-      AuxID: 0,
       campos: [
         {
           key: "ID",
@@ -103,49 +90,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions([
-      "setCategorias",
-      "insertCategoria",
-      "deleteCategoria",
-    ]),
-    checkFormValidity() {
-      const valid = this.$refs.form.checkValidity();
-      this.StateNombre = valid;
-      return valid;
-    },
-    resetModal() {
-      this.EditNombre = "";
-      this.StateNombre = null;
-    },
-    handleOk(bvModalEvt) {
-      bvModalEvt.preventDefault();
-      this.handleSubmit();
-    },
-    handleSubmit() {
-      if (!this.checkFormValidity()) {
-        return;
-      }
-      this.updateCategoria({
-        id: this.AuxID,
-        params: {
-          Nombre: this.EditNombre,
-        },
-        onComplete: (response) => {
-          console.log(response);
-          this.setCategorias();
-        },
-        onError: (error) => {
-          console.log(error);
-          this.$notify({
-            type: "error",
-            title: error.response.data.mensaje,
-          });
-        },
-      });
-      this.$nextTick(() => {
-        this.$bvModal.hide("modal-prevent-closing");
-      });
-    },
+    ...mapActions(["setCategorias", "insertCategoria", "deleteCategoria"]),
     onEliminar(item) {
       this.$bvModal
         .msgBoxConfirm("Esta opción no se puede deshacer", {
@@ -163,13 +108,10 @@ export default {
               onComplete: (response) => {
                 console.log(response);
                 this.setCategorias();
+                this.SuccessResponse(response.data.mensaje);
               },
               onError: (error) => {
-                console.log(error);
-                this.$notify({
-                  type: "error",
-                  title: error.response.data.mensaje,
-                });
+                this.ErrorResponse(error.response.data.mensaje);
               },
             });
           }
@@ -184,15 +126,36 @@ export default {
           onComplete: (response) => {
             console.log(response);
             this.setCategorias();
+            this.Categoria.Nombre = "";
+            this.SuccessResponse(response.data.mensaje);
           },
           onError: (error) => {
-            this.$notify({
-              type: "error",
-              title: error.response.data.mensaje,
-            });
+            this.ErrorResponse(error.response.data.mensaje);
           },
         });
       } else this.erroresValidacion = true;
+    },
+    ErrorResponse(mensaje) {
+      this.$bvModal.msgBoxOk(mensaje, {
+        title: "Error",
+        size: "sm",
+        buttonSize: "sm",
+        okVariant: "danger",
+        headerClass: "p-2 border-bottom-0",
+        footerClass: "p-2 border-top-0",
+        centered: true,
+      });
+    },
+    SuccessResponse(mensaje) {
+      this.$bvModal.msgBoxOk(mensaje, {
+        title: "Accion Completada",
+        size: "sm",
+        buttonSize: "sm",
+        okVariant: "success",
+        headerClass: "p-2 border-bottom-0",
+        footerClass: "p-2 border-top-0",
+        centered: true,
+      });
     },
   },
 };

@@ -29,7 +29,6 @@ export default new Vuex.Store({
       commit('SET_LOADING', true)
       axios.get('http://localhost:3000/Categorias')
       .then( response => {
-        console.log(response)
         commit('SET_CATEGORIAS', response.data)
       })
       .finally(() => commit('SET_LOADING', false))
@@ -53,7 +52,6 @@ export default new Vuex.Store({
       commit('SET_LOADING', true)
       axios.get('http://localhost:3000/Personal')
       .then( response => {
-        console.log(response)
         commit('SET_PERSONAL', response.data)
       })
       .finally(() => commit('SET_LOADING', false))
@@ -77,13 +75,27 @@ export default new Vuex.Store({
       commit('SET_LOADING', true)
       axios.get('http://localhost:3000/Tickets')
       .then( response => {
-        console.log(response)
         commit('SET_TICKETS', response.data)
       })
       .finally(() => commit('SET_LOADING', false))
     },
     insertTicket({commit}, {params, onComplete, onError}) {
       axios.post('http://localhost:3000/Agregar-Ticket', params)
+      .then(onComplete)
+      .catch(onError)
+    },
+    updateTicket({commit}, {id ,params, onComplete, onError}) {
+      axios.put(`http://localhost:3000/Editar-Ticket/${id}`, params)
+      .then(onComplete)
+      .catch(onError)
+    },
+    updateEstatus({commit}, {id ,params, onComplete, onError}) {
+      axios.put(`http://localhost:3000/Editar-Ticket-Estatus/${id}`, params)
+      .then(onComplete)
+      .catch(onError)
+    },
+    deleteTicket({commit}, {id, onComplete, onError}) {
+      axios.delete(`http://localhost:3000/Eliminar-Tickets/${id}`)
       .then(onComplete)
       .catch(onError)
     },
