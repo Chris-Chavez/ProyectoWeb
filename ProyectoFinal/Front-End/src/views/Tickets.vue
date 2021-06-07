@@ -36,7 +36,7 @@
           </template>
         </Table>
       </b-tab>
-      <b-tab title="Insersion">
+      <b-tab title="Inserción">
         <br />
         <h3>Agregat Tickets</h3>
         <b-form @submit.prevent="AgregarTicket">
@@ -53,39 +53,46 @@
           <Input
             v-model="Tickets.Descripcion"
             id="Modelo"
-            placeholder="Ingrese la Descripcion del Ticket"
+            placeholder="Ingrese la Descripción del Ticket"
             maxlength="150"
             pattern="^[a-zA-Z0-9\s]+$"
             class="mb-2"
           />
-          <b-form-select
-            v-model="Tickets.Prioridad"
-            :options="Prioridades"
-            style="margin-bottom: 15px"
-          ></b-form-select>
-          <label v-show="!validacionPrioridad">Este Campo es obligatorio</label>
-          <b-form-select
-            v-model="Tickets.Personal"
-            :options="allPersonal"
-            text-field="Nombre"
-            value-field="ID"
-            style="margin-bottom: 15px"
-          ></b-form-select>
-          <label v-show="!validacionPersonal">Este Campo es obligatorio</label>
-          <b-form-select
-            v-model="Tickets.Categoria"
-            :options="allCategorias"
-            text-field="Nombre"
-            value-field="ID"
-            style="margin-bottom: 15px"
-          ></b-form-select>
-          <label v-show="!validacionCategoria">Este Campo es obligatorio</label>
-          <br />
+          <div class="mt-4 mb-2">
+            Prioridad:
+            <b-form-select
+              v-model="Tickets.Prioridad"
+              :options="Prioridades"
+              style="margin-right:8px"
+            ></b-form-select>
+            <label v-show="!validacionPrioridad">Este Campo es obligatorio</label>
+          </div>
+          <div class="mb-2">
+            Personal:
+            <b-form-select
+              v-model="Tickets.Personal"
+              :options="allPersonal"
+              text-field="Nombre"
+              value-field="ID"
+              style="margin-right:5px"
+            ></b-form-select>
+            <label v-show="!validacionPersonal">Este Campo es obligatorio</label>
+          </div>
+          <div class="mb-4">
+            Categoría:
+            <b-form-select
+              v-model="Tickets.Categoria"
+              :options="allCategorias"
+              text-field="Nombre"
+              value-field="ID"
+              style="margin-right:5px"
+            ></b-form-select>
+            <label v-show="!validacionCategoria">Este Campo es obligatorio</label>
+          </div>
           <b-button
             type="submit"
             variant="outline-success"
-            class="float-right mt-2"
-            style="margin: 0px 0px 15px 0px"
+            class="float-right"
             >Guardar</b-button
           >
         </b-form>
@@ -107,9 +114,9 @@
       <h3>ID: {{ AuxID }}</h3>
       <form ref="form" @submit.stop.prevent="handleSubmit">
         <b-form-group
-          label="Nueva Descripcion"
+          label="Nueva Descripción"
           label-for="Descripcion-input"
-          invalid-feedback="La Descripcion es requerida"
+          invalid-feedback="La Descripción es requerida"
           :state="StateNombre.b1"
         >
           <b-form-input
@@ -133,9 +140,9 @@
           ></b-form-select>
         </b-form-group>
         <b-form-group
-          label="Nueva Categoria"
+          label="Nueva Categoría"
           label-for="Categoria-input"
-          invalid-feedback="La Categoria es requerida"
+          invalid-feedback="La Categoría es requerida"
           :state="StateNombre.b2"
         >
           <b-form-select
@@ -223,7 +230,7 @@ export default {
         },
         {
           key: "Descripcion",
-          label: "Descripcion",
+          label: "Descripción",
           formatter: (value) => {
             return value || "Sin información";
           },
@@ -256,7 +263,7 @@ export default {
         },
         {
           key: "Categoria",
-          label: "Categoria",
+          label: "Categoría",
           formatter: (value) => {
             return value || "Sin información";
           },
@@ -403,7 +410,7 @@ export default {
     },
     onEliminar(item) {
       this.$bvModal
-        .msgBoxConfirm("Esta opción no se puede deshacer", {
+        .msgBoxConfirm("Esta acción no se puede deshacer", {
           title: "¿Esta seguro que desea eliminar?",
           buttonSize: "sm",
           okVariant: "danger",
@@ -470,7 +477,7 @@ export default {
     },
     SuccessResponse(mensaje) {
       this.$bvModal.msgBoxOk(mensaje, {
-        title: "Accion Completada",
+        title: "Acción Completada",
         size: "sm",
         buttonSize: "sm",
         okVariant: "success",

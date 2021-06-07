@@ -1,10 +1,10 @@
 <template>
   <div class="Contenedor">
-    <h1>ABC Categorias</h1>
+    <h1>ABC Categorías</h1>
     <b-tabs>
       <b-tab title="Consulta">
         <br />
-        <h3>Consulta de Categorias</h3>
+        <h3>Consulta de Categorías</h3>
         <br />
         <Table :fields="campos" :items="allCategorias" :busy="getLoading">
           <template slot="actions" slot-scope="{ item }">
@@ -19,15 +19,15 @@
           </template>
         </Table>
       </b-tab>
-      <b-tab title="Insercion">
+      <b-tab title="Inserción">
         <br />
-        <h3>Agregar Categorias</h3>
+        <h3>Agregar Categorías</h3>
         <br />
         <b-form @submit.prevent="AgregarCategoria">
           <Input
             v-model="Categoria.Nombre"
             id="Modelo"
-            placeholder="Ingrese nombre de la Categoria"
+            placeholder="Ingrese nombre de la Categoría"
             mensajeError="Este dato es obligatorio"
             maxlength="50"
             pattern="^[a-zA-Z0-9\s]+$"
@@ -93,7 +93,7 @@ export default {
     ...mapActions(["setCategorias", "insertCategoria", "deleteCategoria"]),
     onEliminar(item) {
       this.$bvModal
-        .msgBoxConfirm("Esta opción no se puede deshacer", {
+        .msgBoxConfirm("Esta acción no se puede deshacer", {
           title: "¿Esta seguro que desea eliminar?",
           buttonSize: "sm",
           okVariant: "danger",
@@ -148,7 +148,7 @@ export default {
     },
     SuccessResponse(mensaje) {
       this.$bvModal.msgBoxOk(mensaje, {
-        title: "Accion Completada",
+        title: "Acción Completada",
         size: "sm",
         buttonSize: "sm",
         okVariant: "success",

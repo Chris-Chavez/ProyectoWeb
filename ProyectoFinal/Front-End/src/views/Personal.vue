@@ -25,9 +25,8 @@
               Eliminar
             </b-button>
           </template>
-        </Table></b-tab
-      >
-      <b-tab title="Insercion">
+        </Table></b-tab>
+      <b-tab title="Inserción">
         <br />
         <h3>Agregar Personal</h3>
         <br />
@@ -55,7 +54,7 @@
           <Input
             v-model="Personal.Telefono"
             id="Modelo"
-            placeholder="Ingrese el Telefono del Personal"
+            placeholder="Ingrese el Teléfono del Personal"
             maxlength="10"
             mensajeError="Este dato es incorrecto"
             pattern="(^$|^[0-9]{10}$)"
@@ -65,7 +64,7 @@
           <Input
             v-model="Personal.Direccion"
             id="Modelo"
-            placeholder="Ingrese la Direccion del Personal"
+            placeholder="Ingrese la Dirección del Personal"
             maxlength="150"
             pattern="^[a-zA-Z0-9\s]+$"
             class="mb-2"
@@ -135,7 +134,7 @@
             maxlength="10"
           ></b-form-input>
         </b-form-group>
-        <b-form-group label="Nueva Direccion" label-for="Direccion-input">
+        <b-form-group label="Nueva Dirección" label-for="Direccion-input">
           <b-form-input
             id="Direccion-input"
             v-model="EditFields.Direccion"
@@ -178,14 +177,14 @@ export default {
         },
         {
           key: "Telefono",
-          label: "Telefono",
+          label: "Teléfono",
           formatter: (value) => {
             return value || "Sin información";
           },
         },
         {
           key: "Direccion",
-          label: "Direccion",
+          label: "Dirección",
           formatter: (value) => {
             return value || "Sin información";
           },
@@ -278,7 +277,7 @@ export default {
     },
     onEliminar(item) {
       this.$bvModal
-        .msgBoxConfirm("Esta opción no se puede deshacer", {
+        .msgBoxConfirm("Esta acción no se puede deshacer", {
           title: "¿Esta seguro que desea eliminar?",
           buttonSize: "sm",
           okVariant: "danger",
@@ -342,7 +341,7 @@ export default {
     },
     SuccessResponse(mensaje) {
       this.$bvModal.msgBoxOk(mensaje, {
-        title: "Accion Completada",
+        title: "Acción Completada",
         size: "sm",
         buttonSize: "sm",
         okVariant: "success",

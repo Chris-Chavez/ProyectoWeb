@@ -26,7 +26,7 @@ export default {
         },
         {
           key: "Descripcion",
-          label: "Descripcion",
+          label: "Descripción",
           formatter: (value) => {
             return value || "Sin información";
           },
@@ -59,7 +59,7 @@ export default {
         },
         {
           key: "Categoria",
-          label: "Categoria",
+          label: "Categoría",
           formatter: (value) => {
             return value || "Sin información";
           },

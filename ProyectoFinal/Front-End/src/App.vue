@@ -7,7 +7,7 @@
             >Inicio</b-nav-item
           >
           <b-nav-item to="/Categorias" exact exact-active-class="active"
-            >Categorias</b-nav-item
+            >Categorías</b-nav-item
           >
           <b-nav-item to="/Personal" exact exact-active-class="active"
             >Personal</b-nav-item

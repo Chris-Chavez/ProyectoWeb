@@ -23,14 +23,14 @@ rutas.post('/Agregar-Categorias', (req, res) => {
             return res.status(400).send({ error: true, mensaje: "El nombre es obligatorio" })
         }
         if (Categoria.Nombre.length > 50) {
-            return res.status(400).send({ error: true, mensaje: "La longitud sobrepasa el limite permitido" })
+            return res.status(400).send({ error: true, mensaje: "La longitud sobrepasa el límite permitido" })
         }
         let sql = 'INSERT INTO CATEGORIAS set ?';
         BD.query(sql, [Categoria], (err, rows) => {
             if (err) {
                 res.json(err);
             } else {
-                res.json({ error: false, data: rows, mensaje: "Categoria insertada correctamente" })
+                res.json({ error: false, data: rows, mensaje: "Categoría insertada correctamente" })
             }
         })
 
@@ -44,7 +44,7 @@ rutas.delete('/Eliminar-Categoria/:ID', (req, res) => {
             if (err) {
                 res.json(err);
             } else {
-                res.json({ error: false, data: rows, mensaje: "Categoria Eliminada Correctamente" })
+                res.json({ error: false, data: rows, mensaje: "Categoría Eliminada Correctamente" })
             }
         })
 
@@ -71,19 +71,19 @@ rutas.post('/Agregar-Personal', (req, res) => {
             return res.status(400).send({ error: true, mensaje: "El nombre es obligatorio" })
         }
         if (Personal.Nombre.length > 50) {
-            return res.status(400).send({ error: true, mensaje: "La longitud del Nombre sobrepasa el limite permitido" })
+            return res.status(400).send({ error: true, mensaje: "La longitud del Nombre sobrepasa el límite permitido" })
         }
         if (Personal.Apellidos.length > 80) {
-            return res.status(400).send({ error: true, mensaje: "La longitud de los Apellidos sobrepasa el limite permitido" })
+            return res.status(400).send({ error: true, mensaje: "La longitud de los Apellidos sobrepasa el límite permitido" })
         }
         if (!Personal.Apellidos) {
             return res.status(400).send({ error: true, mensaje: "Los Apellidos son obligatorios" })
         }
         if (Personal.Telefono.length > 10) {
-            return res.status(400).send({ error: true, mensaje: "La longitud del Telefono sobrepasa el limite permitido" })
+            return res.status(400).send({ error: true, mensaje: "La longitud del Teléfono sobrepasa el límite permitido" })
         }
         if (Personal.Direccion.length > 150) {
-            return res.status(400).send({ error: true, mensaje: "La longitud de la Direccion sobrepasa el limite permitido" })
+            return res.status(400).send({ error: true, mensaje: "La longitud de la Direccion sobrepasa el límite permitido" })
         }
         let sql = 'INSERT INTO PERSONAL set ?';
         BD.query(sql, [Personal], (err, rows) => {
@@ -104,19 +104,19 @@ rutas.put('/Editar-Personal/:ID', (req, res) => {
             return res.status(400).send({ error: true, mensaje: "El nombre es obligatorio" })
         }
         if (Personal.Nombre.length > 50) {
-            return res.status(400).send({ error: true, mensaje: "La longitud del Nombre sobrepasa el limite permitido" })
+            return res.status(400).send({ error: true, mensaje: "La longitud del Nombre sobrepasa el límite permitido" })
         }
         if (Personal.Apellidos.length > 80) {
-            return res.status(400).send({ error: true, mensaje: "La longitud de los Apellidos sobrepasa el limite permitido" })
+            return res.status(400).send({ error: true, mensaje: "La longitud de los Apellidos sobrepasa el límite permitido" })
         }
         if (!Personal.Apellidos) {
             return res.status(400).send({ error: true, mensaje: "Los Apellidos son obligatorios" })
         }
         if (Personal.Telefono.length > 10) {
-            return res.status(400).send({ error: true, mensaje: "La longitud del Telefono sobrepasa el limite permitido" })
+            return res.status(400).send({ error: true, mensaje: "La longitud del Telefono sobrepasa el límite permitido" })
         }
         if (Personal.Direccion.length > 150) {
-            return res.status(400).send({ error: true, mensaje: "La longitud de la Direccion sobrepasa el limite permitido" })
+            return res.status(400).send({ error: true, mensaje: "La longitud de la Direccion sobrepasa el límite permitido" })
         }
         let sql = 'UPDATE PERSONAL set ? where ID = ?';
         BD.query(sql, [Personal, id], (err, rows) => {
@@ -164,10 +164,10 @@ rutas.post('/Agregar-Ticket', (req, res) => {
             return res.status(400).send({ error: true, mensaje: "El nombre es obligatorio" })
         }
         if (Tickets.Nombre.length > 50) {
-            return res.status(400).send({ error: true, mensaje: "La longitud del Nombre sobrepasa el limite permitido" })
+            return res.status(400).send({ error: true, mensaje: "La longitud del Nombre sobrepasa el límite permitido" })
         }
         if (Tickets.Descripcion.length > 100) {
-            return res.status(400).send({ error: true, mensaje: "La longitud de la Descripcion sobrepasa el limite permitido" })
+            return res.status(400).send({ error: true, mensaje: "La longitud de la Descripcion sobrepasa el límite permitido" })
         }
         if (!Tickets.Prioridad) {
             return res.status(400).send({ error: true, mensaje: "La Prioridad es obligatoria" })
@@ -176,7 +176,7 @@ rutas.post('/Agregar-Ticket', (req, res) => {
             return res.status(400).send({ error: true, mensaje: "El Personal es obligatorio" })
         }
         if (Tickets.Categoria > 50) {
-            return res.status(400).send({ error: true, mensaje: "La Categoria es obligatoria" })
+            return res.status(400).send({ error: true, mensaje: "La Categoría es obligatoria" })
         }
         let sql = 'INSERT INTO TICKETS set ?';
         BD.query(sql, [Tickets], (err, rows) => {
@@ -197,10 +197,10 @@ rutas.put('/Editar-Ticket/:ID', (req, res) => {
             return res.status(400).send({ error: true, mensaje: "El nombre es obligatorio" })
         }
         if (Tickets.Nombre.length > 50) {
-            return res.status(400).send({ error: true, mensaje: "La longitud del Nombre sobrepasa el limite permitido" })
+            return res.status(400).send({ error: true, mensaje: "La longitud del Nombre sobrepasa el límite permitido" })
         }
         if (Tickets.Descripcion.length > 100) {
-            return res.status(400).send({ error: true, mensaje: "La longitud de la Descripcion sobrepasa el limite permitido" })
+            return res.status(400).send({ error: true, mensaje: "La longitud de la Descripcion sobrepasa el límite permitido" })
         }
         if (!Tickets.Prioridad) {
             return res.status(400).send({ error: true, mensaje: "La Prioridad es obligatoria" })
@@ -209,7 +209,7 @@ rutas.put('/Editar-Ticket/:ID', (req, res) => {
             return res.status(400).send({ error: true, mensaje: "El Personal es obligatorio" })
         }
         if (Tickets.Categoria > 50) {
-            return res.status(400).send({ error: true, mensaje: "La Categoria es obligatoria" })
+            return res.status(400).send({ error: true, mensaje: "La Categoría es obligatoria" })
         }
 
         let sql = 'UPDATE TICKETS set ? where ID = ?';
@@ -236,7 +236,7 @@ rutas.put('/Editar-Ticket-Estatus/:ID', (req, res) => {
             if (err) {
                 res.json(err);
             } else {
-                res.json({ error: false, data: rows, mensaje: "Personal Editado Correctamente" })
+                res.json({ error: false, data: rows, mensaje: "Estatus Actualizado Correctamente" })
             }
         })
 
@@ -250,7 +250,7 @@ rutas.delete('/Eliminar-Tickets/:ID', (req, res) => {
             if (err) {
                 res.json(err);
             } else {
-                res.json({ error: false, data: rows, mensaje: "Personal Eliminado Correctamente" })
+                res.json({ error: false, data: rows, mensaje: "Ticket Eliminado Correctamente" })
             }
         })
 
